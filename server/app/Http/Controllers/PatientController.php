@@ -16,12 +16,20 @@ class PatientController extends Controller{
         ]);
         return $info;
     }
-    public function getAllPatient(){
+    public function getAllPatients(){
         $patients = DB::table('patients')->get();
         return $patients;
     }
     public function getPatientById($pid){
         $patient = DB::table('patients')->where('pid',$pid)->get();
         return $patient;
+    }
+    public function getPatientPhoneNumById($pid){
+        $patient = $this->getPatientById($pid);
+        return $patient[0]->phoneNumber;
+    }
+    public function getPatientMcNumById($pid){
+        $patient = $this->getPatientById($pid);
+        return $patient[0]->mcNumber;
     }
 }

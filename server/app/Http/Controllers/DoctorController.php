@@ -10,7 +10,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 
 class DoctorController extends Controller{
-    public function getAllDoctor(){
+    public function getAllDoctors(){
         $doctors = DB::table('doctors')->get();
         return $doctors;
     }
@@ -18,4 +18,5 @@ class DoctorController extends Controller{
         $doctor = DB::table('doctors')->where('did',$did)->get();
         return $doctor;
     }
+
 }

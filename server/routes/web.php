@@ -15,9 +15,11 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 $app->get('/insert','MainController@init');
-$app->get('/doctor/get/all','DoctorController@getAllDoctor');
+$app->get('/doctor/get/all','DoctorController@getAllDoctors');
 $app->get('/doctor/get/{did}','DoctorController@getDoctorById');
 
 $app->get('/patient/init','PatientController@init');
-$app->get('/patient/get/all','PatientController@getAllPatient');
-$app->get('/patient/get/{pid}','PatientController@getAllPatient');
+$app->get('/patient/get/all','PatientController@getAllPatients');
+$app->get('/patient/get/{pid}','PatientController@getPatientById');
+$app->get('/patient/get/phone/{pid}','PatientController@getPatientPhoneNumById');
+$app->get('/patient/get/mc/{pid}','PatientController@getPatientMcNumById');
