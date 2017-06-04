@@ -7,7 +7,7 @@
           <v-menu id="login" theme="dark" mode="horizontal" :data="menuData1" :style="{lineHeight: '64px'}"></v-menu>
         </div>
       </v-header>
-      <div class="container">        
+      <div class="container">
         <v-content :style="{ padding: '0 50px' }">
           <v-breadcrumb :style="{ margin: '12px 0' }">
             <v-breadcrumb-item>首页</v-breadcrumb-item>
@@ -112,6 +112,9 @@
     methods: {
       itemClick (val) {
         this.here = val[1].name
+        this.$http.get('/api/doctor/get/all').then(response => {
+          console.log(response)
+        })
         console.log(val)
       }
     }
