@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class DoctorController extends Controller{
     public function getAllDoctor(){
-        $doctors = DB::table('doctor')->get();
+        $doctors = DB::table('doctors')->get();
         return $doctors;
     }
     public function getDoctorById($did){
-        $doctor = DB::table('doctor')->where('nid',$did)->get();
+        $doctor = DB::table('doctors')->where('did',$did)->get();
         return $doctor;
     }
 }
