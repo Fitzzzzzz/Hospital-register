@@ -17,4 +17,7 @@ $app->get('/', function () use ($app) {
 $app->get('/insert','MainController@init');
 $app->get('/doctor/get/all','DoctorController@getAllDoctor');
 $app->get('/doctor/get/{did}','DoctorController@getDoctorById');
+
 $app->get('/patient/init','PatientController@init');
+$app->get('/patient/get/all','PatientController@getAllPatient');
+$app->get('/patient/get/{pid}','PatientController@getAllPatient');
