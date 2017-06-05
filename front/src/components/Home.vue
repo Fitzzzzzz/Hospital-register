@@ -4,7 +4,7 @@
       <v-header>
         <div class="container">
           <div class="logo"></div>
-          <v-menu id="login" theme="dark" mode="horizontal" :data="menuData1" :style="{lineHeight: '64px'}"></v-menu>
+          <v-menu id="login" theme="dark" mode="horizontal" :data="menuData1" :style="{lineHeight: '64px'}" @item-click="openLogin"></v-menu>
         </div>
       </v-header>
       <div class="container">
@@ -20,13 +20,21 @@
             </v-sider>
             <v-content :style="{padding:'0 24px', minHeight: 280}">
               <TimePicker></TimePicker>
-              <v-data-table ref="datatable" :data="tableValues" :columns="tableCol"></v-data-table>
+              <v-data-table ref="datatable" :data="tableValues" :columns="tableCol" @clickrow="selectDoc"></v-data-table>
             </v-content>
           </v-layout>
         </v-content>
         <v-footer></v-footer>
       </div>
     </v-layout>
+    <v-modal title="请输入信息" :visible="dialogVis" @ok="mOk" @cancel="mCancel" ok-text="确认" cancel-text="取消">
+      <v-input size="large" placeholder="就诊卡号" style="width:100%;display:inline-block"></v-input>
+      <v-input size="large" placeholder="手机号" style="width:100%;display:inline-block;margin-top:20px;"></v-input>
+    </v-modal>
+    <v-modal title="登录" :visible="dialogLogin" @ok="logIn" @cancel="mCancelLogin" ok-text="确定" cancel-text="取消">
+      <v-input size="large" placeholder="帐号" style="width:100%;display:inline-block"></v-input>
+      <v-input size="large" placeholder="密码" style="width:100%;display:inline-block;margin-top:20px;"></v-input>
+    </v-modal>
   </div>
 </template>
 
@@ -56,8 +64,7 @@
             children: [
               {
                 id: 1,
-                name: '口腔科',
-                selected: true
+                name: '口腔科'
               }, {
                 id: 5,
                 name: '清水河中医康复科'
@@ -74,8 +81,7 @@
             children: [
               {
                 id: 1,
-                name: '口腔科',
-                selected: true
+                name: '口腔科'
               }, {
                 id: 2,
                 name: '沙河内科'
@@ -129,7 +135,9 @@
             title: '剩余人数',
             field: 'patientNum'
           }
-        ]
+        ],
+        dialogVis: false,
+        dialogLogin: false
       }
     },
     itemId: 1,
@@ -140,9 +148,35 @@
         this.$refs.datatable.reload()
       },
       tableValues () {
-        return this.$http.get('/api/doctor/get/' + this.itemId).then(response => ({
+        return this.$http.get('/api/doctor/get/dp/' + this.itemId).then(response => ({
           result: response.data
         }))
+      },
+      selectDoc (a, b, c) {
+        console.log(a, b, c)
+        this.dialogVis = !this.dialogVis
+      },
+      mOk () {
+        this.dialogVis = !this.dialogVis
+        this.openTypeMessage('success')
+      },
+      mCancel () {
+        this.dialogVis = !this.dialogVis
+      },
+      openTypeMessage (type) {
+        this.$message[type]('挂号成功^.^')
+      },
+      logIn () {
+        this.dialogLogin = !this.dialogLogin
+        this.openTypeMessage('success')
+      },
+      mCancelLogin () {
+        this.dialogLogin = !this.dialogLogin
+      },
+      openLogin (val) {
+        if (val[0].name === '后台登录') {
+          this.dialogLogin = !this.dialogLogin
+        }
       }
     }
   }

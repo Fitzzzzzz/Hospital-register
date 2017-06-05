@@ -2,7 +2,7 @@
   <div id="app">
     <router-view></router-view>
     <v-footer :style="{textAlign: 'center'}">
-          Ant Design ©2016 Created by Ant UED
+          Copyright © Fitzz 2017 All rights reserved
         </v-footer>
   </div>
 </template>

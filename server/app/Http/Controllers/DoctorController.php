@@ -18,5 +18,8 @@ class DoctorController extends Controller{
         $doctor = DB::table('doctors')->where('did',$did)->get();
         return $doctor;
     }
-
+    public function getDoctorByDpId($dpid){
+        $doctor = DB::table('doctors')->where('dpId',$dpid)->get();
+        return $doctor;
+    }
 }

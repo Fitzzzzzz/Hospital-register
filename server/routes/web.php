@@ -18,6 +18,7 @@ $app->get('/insert','MainController@init');
 $app->get('/doctor/get/all','DoctorController@getAllDoctors');
 $app->get('/doctor/get/{did}','DoctorController@getDoctorById');
 //$app->post('/doctor/post/id','DoctorController@getDoctorById');
+$app->get('/doctor/get/dp/{dpid}','DoctorController@getDoctorByDpId');
 
 $app->get('/patient/init','PatientController@init');
 $app->get('/patient/get/all','PatientController@getAllPatients');
