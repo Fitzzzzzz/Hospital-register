@@ -20,6 +20,7 @@
             </v-sider>
             <v-content :style="{padding:'0 24px', minHeight: 280}">
               <TimePicker></TimePicker>
+              <v-data-table ref="datatable" :data="tableValues" :columns="tableCol"></v-data-table>
             </v-content>
           </v-layout>
         </v-content>
@@ -38,16 +39,17 @@
       return {
         menuData1: [
           {
-            name: 'nav 1'
-          }, {
-            name: 'nav 2',
+            name: '挂号系统',
             selected: true
           }, {
-            name: 'nav 3'
+            name: '后台登录'
+          }, {
+            name: '联系我们'
           }
         ],
         menuData2: [
           {
+            id: 1,
             name: '特色专科',
             icon: 'smile-o',
             expand: true,
@@ -65,8 +67,10 @@
               }
             ]
           }, {
+            id: 2,
             name: '所有科室',
             icon: 'menu-fold',
+            expand: true,
             children: [
               {
                 id: 1,
@@ -106,16 +110,39 @@
             ]
           }
         ],
-        here: '口腔科'
+        here: '口腔科',
+        dpid: 1,
+        tableCol: [
+          {
+            title: '姓名',
+            field: 'dName'
+          }, {
+            title: '开始出诊时间',
+            field: 'beginTime'
+          }, {
+            title: '结束出诊时间',
+            field: 'endTime'
+          }, {
+            title: '职称',
+            field: 'pfTitle'
+          }, {
+            title: '剩余人数',
+            field: 'patientNum'
+          }
+        ]
       }
     },
+    itemId: 1,
     methods: {
       itemClick (val) {
         this.here = val[1].name
-        this.$http.get('/api/doctor/get/all').then(response => {
-          console.log(response)
-        })
-        console.log(val)
+        this.itemId = val[1].id
+        this.$refs.datatable.reload()
+      },
+      tableValues () {
+        return this.$http.get('/api/doctor/get/' + this.itemId).then(response => ({
+          result: response.data
+        }))
       }
     }
   }
