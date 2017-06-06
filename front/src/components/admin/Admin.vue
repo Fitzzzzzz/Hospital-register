@@ -2,7 +2,7 @@
   <div id="components-layout-demo-custom-trigger">
     <v-layout>
       <v-sider collapsible :collapsed="customCollapsed" :trigger="false" :collapsed-width="64">
-        <div class="logo"></div>
+        <div class="logo">在线挂号系统</div>
         <v-menu theme="dark" mode="inline" :data="menuData4" @item-click="changeItem">
           <template scope="{data}">
             <i v-if="data.icon" :class="'anticon anticon-' + data.icon"></i>
@@ -17,7 +17,7 @@
         <v-content :style="{ padding: '0 50px' }">
           <v-breadcrumb :style="{ margin: '12px 0' }">
             <v-breadcrumb-item>管理系统</v-breadcrumb-item>
-            <v-breadcrumb-item>Home</v-breadcrumb-item>
+            <v-breadcrumb-item>{{here}}</v-breadcrumb-item>
           </v-breadcrumb>
           <div style="padding: 24px; background: #fff; min-height: 800px;">
             <router-view></router-view>
@@ -41,7 +41,8 @@
         }, {
           name: '查看预约记录',
           icon: 'area-chart'
-        }]
+        }],
+        here: ''
       }
     },
     methods: {
@@ -50,9 +51,11 @@
       },
       changeItem (m) {
         if (m[0].name === '安排出诊') {
-          console.log(66)
+          this.$router.push('/admin/arranger')
+          this.here = '安排出诊'
         } else {
-          console.log(44)
+          this.$router.push('/admin/list')
+          this.here = '预约记录'
         }
       }
     }
@@ -75,6 +78,9 @@
   background: #333;
   border-radius: 6px;
   margin: 16px;
+  color: white;
+  text-align: center;
+  line-height: 30px;
 }
 #components-layout-demo-custom-trigger .ant-layout-sider-collapsed .anticon {
   font-size: 16px;
@@ -83,4 +89,3 @@
   display: none;
 }
 </style>
-

@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import Admin from '@/components/admin/Admin'
 import AllRecords from '@/components/admin/AllRecords'
+import Arranger from '@/components/admin/Arranger'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ export default new Router({
           path: 'list',
           name: 'all-records',
           component: AllRecords
+        },
+        {
+          path: 'arranger',
+          name: 'arranger',
+          component: Arranger
         }
       ]
     }
