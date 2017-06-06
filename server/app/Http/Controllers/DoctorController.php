@@ -7,6 +7,7 @@
  */
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DoctorController extends Controller{
@@ -26,8 +27,11 @@ class DoctorController extends Controller{
         }
         return $doctors;
     }
-    public function getDoctorByDpId($dpid){
-        $doctors = DB::table('doctors')->where('dpId',$dpid)->get();
+    public function getDoctorByDpId(Request $request){
+        $dpId = $request->input('dpId');
+        $dateFrom = strtotime($request->input('date'));
+        $dateTo = strtotime($request->input('date') . ' + 1 days');
+        $doctors = DB::table('doctors')->where('dpId',$dpId)->where('beginTime','>',$dateFrom)->where('endTime','<',$dateTo)->get();
         foreach ($doctors as $doctor){
             $doctor->beginTime = date('Y-m-d H:i',$doctor->beginTime);
             $doctor->endTime = date('Y-m-d H:i',$doctor->endTime);

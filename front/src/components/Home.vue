@@ -19,7 +19,7 @@
               <v-menu mode="inline" :data="menuData2" @item-click="itemClick"></v-menu>
             </v-sider>
             <v-content :style="{padding:'0 24px', minHeight: 280}">
-              <TimePicker></TimePicker>
+              <v-date-picker v-model="todayDate" clearable size="lg"></v-date-picker>
               <v-data-table ref="datatable" :data="tableValues" :columns="tableCol" @clickrow="selectDoc"></v-data-table>
             </v-content>
           </v-layout>
@@ -28,8 +28,8 @@
       </div>
     </v-layout>
     <v-modal title="请输入信息" :visible="dialogVis" @ok="mOk" @cancel="mCancel" ok-text="确认" cancel-text="取消">
-      <v-input size="large" placeholder="就诊卡号" style="width:100%;display:inline-block"></v-input>
-      <v-input size="large" placeholder="手机号" style="width:100%;display:inline-block;margin-top:20px;"></v-input>
+      <v-input size="large" placeholder="就诊卡号" style="width:100%;display:inline-block" v-model="mcNum"></v-input>
+      <v-input size="large" placeholder="手机号" style="width:100%;display:inline-block;margin-top:20px;" v-model="phoneNum"></v-input>
     </v-modal>
     <v-modal title="登录" :visible="dialogLogin" @ok="logIn" @cancel="mCancelLogin" ok-text="确定" cancel-text="取消">
       <v-input size="large" placeholder="帐号" style="width:100%;display:inline-block"></v-input>
@@ -39,10 +39,8 @@
 </template>
 
 <script>
-  import TimePicker from '@/components/TimePicker'
   export default {
     name: 'home',
-    components: {TimePicker},
     data () {
       return {
         menuData1: [
@@ -137,28 +135,58 @@
           }
         ],
         dialogVis: false,
-        dialogLogin: false
+        dialogLogin: false,
+        itemId: 1,
+        todayDate: '2017-05-20',
+        doctors: [],
+        mcNum: 1,
+        phoneNum: 1,
+        did: null
       }
     },
-    itemId: 1,
     methods: {
       itemClick (val) {
         this.here = val[1].name
         this.itemId = val[1].id
         this.$refs.datatable.reload()
+        this.$http.post('/api/doctor/post/dp', {
+          dpId: this.itemId,
+          date: this.todayDate
+        }, {
+          emulateJSON: true
+        }).then(response => {
+          this.doctors = response.data
+        })
       },
       tableValues () {
-        return this.$http.get('/api/doctor/get/dp/' + this.itemId).then(response => ({
+        return this.$http.post('/api/doctor/post/dp', {
+          dpId: this.itemId,
+          date: this.todayDate
+        }, {emulateJSON: true}).then(response => ({
           result: response.data
         }))
       },
-      selectDoc (a, b, c) {
-        console.log(a, b, c)
+      selectDoc (val) {
         this.dialogVis = !this.dialogVis
+        this.did = val.row.did
+        console.log(this.did)
       },
       mOk () {
+        this.$http.post('/api/mc/post/in', {
+          dpId: this.doctors[0].dpId,
+          dId: this.did,
+          beginTime: this.doctors[0].beginTime,
+          endTime: this.doctors[0].endTime,
+          phoneNum: this.phoneNum,
+          mcNum: this.mcNum
+        }, {
+          emulateJSON: true
+        }).then(response => {
+          console.log(response)
+        }).then(response => {
+          console.log(response)
+        })
         this.dialogVis = !this.dialogVis
-        this.openTypeMessage('success')
       },
       mCancel () {
         this.dialogVis = !this.dialogVis

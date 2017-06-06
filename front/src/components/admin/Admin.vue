@@ -3,7 +3,7 @@
     <v-layout>
       <v-sider collapsible :collapsed="customCollapsed" :trigger="false" :collapsed-width="64">
         <div class="logo"></div>
-        <v-menu theme="dark" mode="inline" :data="menuData4">
+        <v-menu theme="dark" mode="inline" :data="menuData4" @item-click="changeItem">
           <template scope="{data}">
             <i v-if="data.icon" :class="'anticon anticon-' + data.icon"></i>
             <span class="nav-text">{{data.name}}</span>
@@ -16,11 +16,12 @@
         </v-header>
         <v-content :style="{ padding: '0 50px' }">
           <v-breadcrumb :style="{ margin: '12px 0' }">
-            <v-breadcrumb-item>Home</v-breadcrumb-item>
-            <v-breadcrumb-item>Home</v-breadcrumb-item>
+            <v-breadcrumb-item>管理系统</v-breadcrumb-item>
             <v-breadcrumb-item>Home</v-breadcrumb-item>
           </v-breadcrumb>
-          <div style="padding: 24px; background: #fff; min-height: 800px;">Content</div>
+          <div style="padding: 24px; background: #fff; min-height: 800px;">
+            <router-view></router-view>
+          </div>
         </v-content>
         <v-footer :style="{ textAlign: 'center' }"></v-footer>
       </v-layout>
@@ -34,21 +35,25 @@
       return {
         customCollapsed: false,
         menuData4: [{
-          name: 'nav 1',
+          name: '安排出诊',
           icon: 'user',
           selected: true
         }, {
-          name: 'nav 2',
-          icon: 'video-camera'
-        }, {
-          name: 'nav 3',
-          icon: 'upload'
+          name: '查看预约记录',
+          icon: 'area-chart'
         }]
       }
     },
     methods: {
       toggle () {
         this.customCollapsed = !this.customCollapsed
+      },
+      changeItem (m) {
+        if (m[0].name === '安排出诊') {
+          console.log(66)
+        } else {
+          console.log(44)
+        }
       }
     }
   }
