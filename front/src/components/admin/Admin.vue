@@ -39,8 +39,11 @@
           icon: 'user',
           selected: true
         }, {
-          name: '查看预约记录',
+          name: '专家预约记录',
           icon: 'area-chart'
+        }, {
+          name: '普通号记录',
+          icon: 'line-chart'
         }, {
           name: '返回前台',
           icon: 'home'
@@ -58,6 +61,8 @@
           this.here = '安排出诊'
         } else if (m[0].name === '返回前台') {
           this.$router.push('/')
+        } else if (m[0].name === '普通号记录') {
+          this.$router.push('/admin/normal')
         } else {
           this.$router.push('/admin/list')
           this.here = '预约记录'

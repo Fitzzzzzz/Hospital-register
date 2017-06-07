@@ -36,7 +36,26 @@ class mcController extends Controller {
             $doctor = DB::table('doctors')->where('did',$record->dId)->get();
             $record->dId = $doctor[0]->dName;
             $record->dpId = $doctor[0]->dpName;
+            $record->beginTime = date('Y-m-d H:i',$record->beginTime);
+            $record->endTime = date('Y-m-d H:i',$record->endTime);
         }
         return $records;
+    }
+    public function addNormalRecords (Request $request) {
+        $dpId = $request->input('dpId');
+        $dpName = $request->input('dpName');
+        $mcNumber = $request->input('mcNumber');
+        $phoneNumber = $request->input('phoneNumber');
+        DB::table('normal')->insert(
+            [
+                'dpId' => $dpId,
+                'dpName' => $dpName,
+                'mcNumber' => $mcNumber,
+                'phoneNumber' => $phoneNumber
+            ]
+        );
+    }
+    public function getNormalRecords () {
+        return DB::table('normal')->get();
     }
 }

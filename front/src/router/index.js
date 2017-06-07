@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Admin from '@/components/admin/Admin'
 import AllRecords from '@/components/admin/AllRecords'
 import Arranger from '@/components/admin/Arranger'
+import Normal from '@/components/admin/Normal'
 
 Vue.use(Router)
 
@@ -29,6 +30,10 @@ export default new Router({
           path: 'arranger',
           name: 'arranger',
           component: Arranger
+        },
+        {
+          path: 'normal',
+          component: Normal
         }
       ]
     }

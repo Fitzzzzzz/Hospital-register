@@ -3,7 +3,7 @@
     <v-layout>
       <v-header>
         <div class="container">
-          <div class="logo"></div>
+          <div class="logo">在线挂号系统</div>
           <v-menu id="login" theme="dark" mode="horizontal" :data="menuData1" :style="{lineHeight: '64px'}" @item-click="openLogin"></v-menu>
         </div>
       </v-header>
@@ -20,6 +20,7 @@
             </v-sider>
             <v-content :style="{padding:'0 24px', minHeight: 280}">
               <v-date-picker v-model="todayDate" clearable size="lg"></v-date-picker>
+              <v-button type="primary" @click="selectDoc">普通号</v-button>
               <v-data-table ref="datatable" :data="tableValues" :columns="tableCol" @clickrow="selectDoc"></v-data-table>
             </v-content>
           </v-layout>
@@ -137,7 +138,7 @@
         dialogVis: false,
         dialogLogin: false,
         itemId: 1,
-        todayDate: '2017-05-20',
+        todayDate: '2017-06-01',
         doctors: [],
         mcNum: null,
         phoneNum: null,
@@ -147,7 +148,8 @@
           adminPassword: 'admin'
         },
         username: null,
-        password: null
+        password: null,
+        isPf: false
       }
     },
     methods: {
@@ -173,23 +175,46 @@
         }))
       },
       selectDoc (val) {
+        if (val.row.patientNum <= 0) {
+          alert('人满了！')
+        } else {
+          this.dialogVis = !this.dialogVis
+          this.did = val.row.did
+          this.isPf = !this.isPf
+        }
+      },
+      addNormal () {
         this.dialogVis = !this.dialogVis
-        this.did = val.row.did
-        console.log(this.did)
       },
       mOk () {
-        this.$http.post('/api/mc/post/in', {
-          dpId: this.doctors[0].dpId,
-          dId: this.did,
-          beginTime: this.doctors[0].beginTime,
-          endTime: this.doctors[0].endTime,
-          phoneNum: this.phoneNum,
-          mcNum: this.mcNum
-        }, {
-          emulateJSON: true
-        }).then(response => {
-          this.openTypeMessage('success', '挂号')
-        })
+        if (this.isPf) {
+          this.$http.post('/api/mc/post/in', {
+            dpId: this.doctors[0].dpId,
+            dId: this.did,
+            beginTime: this.doctors[0].beginTime,
+            endTime: this.doctors[0].endTime,
+            phoneNum: this.phoneNum,
+            mcNum: this.mcNum
+          }, {
+            emulateJSON: true
+          }).then(response => {
+            this.openTypeMessage('success', '挂号')
+          })
+          this.$refs.datatable.reload()
+          this.isPf = !this.isPf
+        } else {
+          this.$http.post('/api/mc/post/normal', {
+            dpId: this.itemId,
+            dpName: this.here,
+            mcNumber: this.mcNum,
+            phoneNumber: this.phoneNum
+          }, {
+            emulateJSON: true
+          }).then(response => {
+            console.log(response)
+          })
+        }
+
         this.dialogVis = !this.dialogVis
       },
       mCancel () {
@@ -224,6 +249,9 @@
 
 <style>
   #components-layout-demo-top-side .logo {
+    line-height: 30px;
+    color: white;
+    text-align: center;
     width: 120px;
     height: 31px;
     background: #333;

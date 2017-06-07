@@ -30,6 +30,8 @@ $app->get('/patient/get/mc/{pid}','PatientController@getPatientMcNumById');
 
 $app->post('/mc/post/in','mcController@inputByDoctorId');
 $app->get('/mc/get/all','mcController@getAllRecords');
+$app->post('mc/post/normal','mcController@addNormalRecords');
+$app->get('/mc/get/normal','mcController@getNormalRecords');
 
 $app->get('/test',function () {
     return date('Y-m-d H:i',1496848320);
