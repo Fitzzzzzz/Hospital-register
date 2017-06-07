@@ -34,8 +34,8 @@ class mcController extends Controller {
         $records = DB::table('records')->get();
         foreach ($records as $record){
             $doctor = DB::table('doctors')->where('did',$record->dId)->get();
-//            $record->dId = $doctor->dName;
-//            $record->dpId = $doctor->dpName;
+            $record->dId = $doctor[0]->dName;
+            $record->dpId = $doctor[0]->dpName;
         }
         return $records;
     }
