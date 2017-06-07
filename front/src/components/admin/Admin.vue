@@ -63,6 +63,11 @@
           this.here = '预约记录'
         }
       }
+    },
+    mounted () {
+      if (!sessionStorage.getItem('isLogin')) {
+        this.$router.push('/')
+      }
     }
   }
 </script>

@@ -200,6 +200,7 @@
       },
       logIn () {
         if (this.username === this.admin.adminName && this.password === this.admin.adminPassword) {
+          sessionStorage.setItem('isLogin', true)
           this.dialogLogin = !this.dialogLogin
           this.openTypeMessage('success', '登陆')
           this.$router.push('/admin')
@@ -210,7 +211,11 @@
       },
       openLogin (val) {
         if (val[0].name === '后台登录') {
-          this.dialogLogin = !this.dialogLogin
+          if (sessionStorage.getItem('isLogin')) {
+            this.$router.push('/admin')
+          } else {
+            this.dialogLogin = !this.dialogLogin
+          }
         }
       }
     }

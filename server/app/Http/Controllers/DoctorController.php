@@ -38,4 +38,32 @@ class DoctorController extends Controller{
         }
         return $doctors;
     }
+    public function addDoctor (Request $request) {
+        $dName = $request->input('dName');
+        $pfName = $request->input('pfName');
+        $patientNum = $request->input('patientNum');
+        $beginTime = strtotime($request->input('beginTime'));
+        $endTime = strtotime($request->input('endTime'));
+        $dpId = $request->input('dpId');
+        $dpName = $request->input('dpName');
+        DB::table('doctors')->insert(
+            [
+                'dName' => $dName,
+                'beginTime' => $beginTime,
+                'endTime' => $endTime,
+                'dpId' => $dpId,
+                'dpName' => $dpName,
+                'isExpert' => 1,
+                'patientNum' => $patientNum,
+                'pfTitle' => $pfName
+            ]
+        );
+    }
+    public function delDoctor (Request $request) {
+        $delId = $request->input('delId');
+        foreach ($delId as $index) {
+            DB::table('doctors')->where('did',$index)->delete();
+            DB::table('records')->where('dId',$index)->delete();
+        }
+    }
 }

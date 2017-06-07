@@ -19,6 +19,8 @@ $app->get('/doctor/get/all','DoctorController@getAllDoctors');
 $app->get('/doctor/get/{did}','DoctorController@getDoctorById');
 //$app->post('/doctor/post/id','DoctorController@getDoctorById');
 $app->post('/doctor/post/dp','DoctorController@getDoctorByDpId');
+$app->post('/doctor/post/add','DoctorController@addDoctor');
+$app->post('/doctor/post/del','DoctorController@delDoctor');
 
 $app->get('/patient/init','PatientController@init');
 $app->get('/patient/get/all','PatientController@getAllPatients');
@@ -30,5 +32,5 @@ $app->post('/mc/post/in','mcController@inputByDoctorId');
 $app->get('/mc/get/all','mcController@getAllRecords');
 
 $app->get('/test',function () {
-    return date('Y-m-d',1496562328);
+    return date('Y-m-d H:i',1496848320);
 });
