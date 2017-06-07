@@ -41,6 +41,9 @@
         }, {
           name: '查看预约记录',
           icon: 'area-chart'
+        }, {
+          name: '返回前台',
+          icon: 'home'
         }],
         here: ''
       }
@@ -53,6 +56,8 @@
         if (m[0].name === '安排出诊') {
           this.$router.push('/admin/arranger')
           this.here = '安排出诊'
+        } else if (m[0].name === '返回前台') {
+          this.$router.push('/')
         } else {
           this.$router.push('/admin/list')
           this.here = '预约记录'

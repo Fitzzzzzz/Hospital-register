@@ -32,8 +32,8 @@
       <v-input size="large" placeholder="手机号" style="width:100%;display:inline-block;margin-top:20px;" v-model="phoneNum"></v-input>
     </v-modal>
     <v-modal title="登录" :visible="dialogLogin" @ok="logIn" @cancel="mCancelLogin" ok-text="确定" cancel-text="取消">
-      <v-input size="large" placeholder="帐号" style="width:100%;display:inline-block"></v-input>
-      <v-input size="large" placeholder="密码" style="width:100%;display:inline-block;margin-top:20px;"></v-input>
+      <v-input size="large" placeholder="帐号" style="width:100%;display:inline-block" v-model="username"></v-input>
+      <v-input size="large" placeholder="密码" type="password" style="width:100%;display:inline-block;margin-top:20px;" v-model="password"></v-input>
     </v-modal>
   </div>
 </template>
@@ -139,9 +139,15 @@
         itemId: 1,
         todayDate: '2017-05-20',
         doctors: [],
-        mcNum: 1,
-        phoneNum: 1,
-        did: null
+        mcNum: null,
+        phoneNum: null,
+        did: null,
+        admin: {
+          adminName: 'admin',
+          adminPassword: 'admin'
+        },
+        username: null,
+        password: null
       }
     },
     methods: {
@@ -182,21 +188,22 @@
         }, {
           emulateJSON: true
         }).then(response => {
-          console.log(response)
-        }).then(response => {
-          console.log(response)
+          this.openTypeMessage('success', '挂号')
         })
         this.dialogVis = !this.dialogVis
       },
       mCancel () {
         this.dialogVis = !this.dialogVis
       },
-      openTypeMessage (type) {
-        this.$message[type]('挂号成功^.^')
+      openTypeMessage (type, message) {
+        this.$message[type](message + '成功^.^')
       },
       logIn () {
-        this.dialogLogin = !this.dialogLogin
-        this.openTypeMessage('success')
+        if (this.username === this.admin.adminName && this.password === this.admin.adminPassword) {
+          this.dialogLogin = !this.dialogLogin
+          this.openTypeMessage('success', '登陆')
+          this.$router.push('/admin')
+        }
       },
       mCancelLogin () {
         this.dialogLogin = !this.dialogLogin
