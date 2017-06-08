@@ -20,7 +20,7 @@
             </v-sider>
             <v-content :style="{padding:'0 24px', minHeight: 280}">
               <v-date-picker v-model="todayDate" clearable size="lg"></v-date-picker>
-              <v-button type="primary" @click="selectDoc">普通号</v-button>
+              <v-button type="primary" @click="addNormal">普通号</v-button>
               <v-data-table ref="datatable" :data="tableValues" :columns="tableCol" @clickrow="selectDoc"></v-data-table>
             </v-content>
           </v-layout>
