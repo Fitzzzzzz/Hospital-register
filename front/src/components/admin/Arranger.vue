@@ -19,7 +19,7 @@
     name: 'arranger',
     data () {
       return {
-        rangeTime: ['2017-06-07 23:12', '2016-06-07 23:12'],
+        rangeTime: ['2017-06-13 14:00', '2016-06-13 18:00'],
         doctorCol: [
           {
             title: '医生姓名',

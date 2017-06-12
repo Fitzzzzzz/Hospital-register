@@ -138,7 +138,7 @@
         dialogVis: false,
         dialogLogin: false,
         itemId: 1,
-        todayDate: '2017-06-01',
+        todayDate: '2017-06-13',
         doctors: [],
         mcNum: null,
         phoneNum: null,
